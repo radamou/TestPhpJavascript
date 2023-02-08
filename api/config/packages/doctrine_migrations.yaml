@@ -1,0 +1,11 @@
+doctrine_migrations:
+    migrations_paths:
+        'DoctrineMigrations': '%kernel.project_dir%/migrations'
+    enable_profiler: '%kernel.debug%'
+    storage:
+        table_storage:
+            table_name: 'migration_versions'
+    organize_migrations: 'BY_YEAR_AND_MONTH'
+    check_database_platform: true
+    custom_template: "%kernel.project_dir%/migrations/migration.tpl"
+

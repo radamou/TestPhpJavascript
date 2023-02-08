@@ -1,0 +1,53 @@
+version: '3.5'
+services:
+    web:
+        build:
+            context: .
+            args:
+                DOCKER_COMPOSE: 'true'
+                APP_ENV: 'dev'
+                APP_DEBUG: 1
+        container_name: francetv-api
+        ports:
+            - '127.0.0.1:8182:80'
+        volumes:
+            - ./:/srv
+        depends_on:
+            - postgresql
+        networks:
+            - default
+
+    postgresql:
+        image: postgres:13.3
+        container_name: francetv-api-postgresql
+        networks:
+            - default
+        shm_size: '256mb'
+        environment:
+            POSTGRES_USER: francetv_api
+            POSTGRES_PASSWORD: francetv_api
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data
+        ports:
+            - '127.0.0.1:2347:5432'
+    postgresql-test:
+        image: postgres:13.3
+        container_name: francetv-api-test
+        shm_size: '256mb'
+        environment:
+            POSTGRES_USER: francetv_api
+            POSTGRES_PASSWORD: francetv_api
+
+    maildev:
+        image: maildev/maildev
+        container_name: francetv-api-maildev
+        command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+        expose:
+            - 25
+        ports:
+            - '127.0.0.1:8183:80'
+
+volumes:
+    postgresql-data:
+        name: francetv-api-postgresql
+        driver: local

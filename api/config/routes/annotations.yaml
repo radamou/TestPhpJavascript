@@ -1,0 +1,11 @@
+controllers:
+    resource: ../../src/Controller/
+    type: annotation
+    prefix: '/api/v1.0'
+    name_prefix: 'api_'
+    requirements:
+        _locale: 'en|fr'
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation

@@ -1,0 +1,12 @@
+{
+  "name": "francetv-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@gitlab.com:developers485/francetv-api.git",
+  "author": "Ramatou Adamou Issa <ramatouadamou@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "yarn",
+    "build": "yarn"
+  }
+}
