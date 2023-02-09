@@ -18,6 +18,7 @@ use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @method string getUserIdentifier()
@@ -32,14 +33,17 @@ class User implements IdentifierInterface, TimestampInterface, BlameInterface, U
     }
     use TimestampTrait;
     use BlameTrait;
-    private const JWT_HASH_VALUE = '12345678901234567890123456789012';
+    const JWT_HASH_VALUE = '12345678901234567890123456789012';
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['show_user', 'list_user'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['show_user', 'list_user'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Groups(['show_user', 'list_user'])]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, unique: true, nullable: true)]
@@ -49,6 +53,7 @@ class User implements IdentifierInterface, TimestampInterface, BlameInterface, U
     private ?string $facebookId = null;
 
     #[ORM\Column(length: 2048, unique: true)]
+    #[Groups(['show_user', 'list_user'])]
     private ?string $apiToken = null;
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]

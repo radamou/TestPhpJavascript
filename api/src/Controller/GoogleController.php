@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GoogleController extends AbstractController
 {
-    #[Route('/google/connect', name: 'connect_google')]
+    #[Route('/google/connect', name: 'connect_google', methods: ['GET'])]
     public function connect(ClientRegistry $clientRegistry): RedirectResponse
     {
         return $clientRegistry
@@ -18,8 +18,8 @@ class GoogleController extends AbstractController
             ->redirect(['profile', 'email']);
     }
 
-    #[Route('google/connect/check', name: 'connect_google_check')]
-    public function check(ClientRegistry $clientRegistry): Response {
+    #[Route('google/connect/check', name: 'connect_google_check',  methods: ['GET'])]
+    public function check(): Response {
         return new Response();
     }
 }

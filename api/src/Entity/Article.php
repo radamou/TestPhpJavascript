@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -25,9 +26,11 @@ class Article implements IdentifierInterface, BlameInterface, TimestampInterface
     use BlameTrait;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article_show', 'list_article'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['article_show', 'list_article'])]
     private ?string $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
@@ -96,7 +99,7 @@ class Article implements IdentifierInterface, BlameInterface, TimestampInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setCommentNotation($this);
+            $comment->setArticle($this);
         }
 
         return $this;
@@ -106,8 +109,8 @@ class Article implements IdentifierInterface, BlameInterface, TimestampInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getCommentNotation() === $this) {
-                $comment->setCommentNotation(null);
+            if ($comment->getArticle() === $this) {
+                $comment->setArticle(null);
             }
         }
 

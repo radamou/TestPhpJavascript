@@ -20,7 +20,7 @@ interface BlameInterface
      *
      * @return self
      */
-    public function setCreatedBy(): self;
+    public function setCreatedBy(?User $user): self;
 
     /**
      * Get user who updated the entity.
@@ -36,7 +36,7 @@ interface BlameInterface
      *
      * @return self
      */
-    public function setUpdatedBy(): self;
+    public function setUpdatedBy(?User $user): self;
 
     /**
      * Get user who archived the entity.

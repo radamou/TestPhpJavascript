@@ -45,7 +45,7 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'api_connect_google_check';
+        return $request->attributes->get('_route') === 'connect_google_check';
     }
 
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
@@ -58,7 +58,7 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
-        $targetUrl = $this->router->generate('api_user_profile');
+        $targetUrl = $this->router->generate('user_profile');
 
         return new RedirectResponse($targetUrl);
     }

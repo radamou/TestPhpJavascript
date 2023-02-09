@@ -10,6 +10,7 @@ use App\Entity\Traits\Interfaces\TimestampInterface;
 use App\Entity\Traits\TimestampTrait;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -22,14 +23,17 @@ class Comment implements IdentifierInterface, TimestampInterface, BlameInterface
     use BlameTrait;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['comment_show', 'list_comment'])]
     private ?string $title = null;
     #[ORM\Column(length: 2048)]
+    #[Groups(['comment_show', 'list_comment'])]
     private ?string $description = null;
     #[ORM\Column(nullable: true)]
+    #[Groups(['comment_show', 'list_comment'])]
     private ?int $target = null;
-
-    #[ORM\ManyToOne(inversedBy: 'comments')]
-    private ?CommentNotation $commentNotation = null;
+    #[ORM\Column(nullable: true)]
+    #[Groups(['comment_show', 'list_comment'])]
+    private ?int $notation = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     public ?Article $article = null;
@@ -62,14 +66,14 @@ class Comment implements IdentifierInterface, TimestampInterface, BlameInterface
         return $this;
     }
 
-    public function getCommentNotation(): ?CommentNotation
+    public function getNotation(): ?int
     {
-        return $this->commentNotation;
+        return $this->notation;
     }
 
-    public function setCommentNotation(?CommentNotation $commentNotation): self
+    public function setNotation(?int $notation): self
     {
-        $this->commentNotation = $commentNotation;
+        $this->notation = $notation;
 
         return $this;
     }

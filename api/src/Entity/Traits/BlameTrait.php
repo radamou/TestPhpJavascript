@@ -25,9 +25,9 @@ trait BlameTrait
         return $this->createdBy;
     }
 
-    public function setCreatedBy(): self
+    public function setCreatedBy(?User $user): self
     {
-        $this->createdBy = $this;
+        $this->createdBy = $user;
 
         return $this;
     }
@@ -37,9 +37,9 @@ trait BlameTrait
         return $this->updatedBy;
     }
 
-    public function setUpdatedBy(): self
+    public function setUpdatedBy(?  User $user): self
     {
-        $this->updatedBy = $this;
+        $this->updatedBy = $user;
 
         return $this;
     }
