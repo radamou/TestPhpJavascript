@@ -8,12 +8,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
-/**
- * Timestamp trait.
- *
- * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\HasLifecycleCallbacks]
+#[ORM\MappedSuperclass]
 trait TimestampTrait
 {
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
@@ -22,7 +18,7 @@ trait TimestampTrait
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     protected ?DateTimeInterface $updatedAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected ?DateTimeInterface $archivedAt = null;
 
     /**

@@ -12,9 +12,12 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Comment implements IdentifierInterface, TimestampInterface, BlameInterface
 {
-    use IdentifierTrait;
+    use IdentifierTrait {
+        IdentifierTrait::__construct as private __identifierConstruct;
+    }
     use TimestampTrait;
     use BlameTrait;
 
@@ -32,6 +35,7 @@ class Comment implements IdentifierInterface, TimestampInterface, BlameInterface
     public ?Article $article = null;
 
     public function __construct(){
+        $this-> __identifierConstruct();
     }
 
     public function getTitle(): ?string

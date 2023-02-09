@@ -4,8 +4,8 @@ nelmio_api_doc:
             - ^/api(?!/doc$)
     documentation:
         info:
-            title: Ramazaki
-            description: Ramazaki
+            title: France Tv
+            description: France Tv
             version: 1.0.0
         components:
             securitySchemes:

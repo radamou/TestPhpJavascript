@@ -10,9 +10,9 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Migration Version20221007111411.
+ * Migration Version20230209124218.
  */
-class Version20221007111411 extends AbstractMigration
+class Version20230209124218 extends AbstractMigration
 {
     /**
      * Description migration.
@@ -21,7 +21,7 @@ class Version20221007111411 extends AbstractMigration
      */
     public function getDescription(): string
     {
-        return 'Init tables in the database';
+        return '';
     }
 
     /**
@@ -39,6 +39,12 @@ class Version20221007111411 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQL100Platform,
             "Migration can only be executed safely on '\App\Doctrine\Platform\PostgreSQL100Platform'."
         );
+
+        $this->addSql('ALTER TABLE address ALTER archived_by DROP NOT NULL');
+        $this->addSql('ALTER TABLE article ALTER archived_by DROP NOT NULL');
+        $this->addSql('ALTER TABLE comment ALTER archived_by DROP NOT NULL');
+        $this->addSql('ALTER TABLE comment_notation ALTER archived_by DROP NOT NULL');
+        $this->addSql('ALTER TABLE "user" ALTER archived_by DROP NOT NULL');
 
         if ($_ENV['APP_ENV'] === 'test') {
             return;
@@ -60,6 +66,13 @@ class Version20221007111411 extends AbstractMigration
             !$this->connection->getDatabasePlatform() instanceof PostgreSQL100Platform,
             "Migration can only be executed safely on '\App\Doctrine\Platform\PostgreSQL100Platform'."
         );
+
+        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('ALTER TABLE address ALTER archived_by SET NOT NULL');
+        $this->addSql('ALTER TABLE comment ALTER archived_by SET NOT NULL');
+        $this->addSql('ALTER TABLE comment_notation ALTER archived_by SET NOT NULL');
+        $this->addSql('ALTER TABLE article ALTER archived_by SET NOT NULL');
+        $this->addSql('ALTER TABLE "user" ALTER archived_by SET NOT NULL');
 
         if ($_ENV['APP_ENV'] === 'test') {
             return;

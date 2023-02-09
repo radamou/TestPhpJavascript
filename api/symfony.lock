@@ -38,6 +38,18 @@
             "migrations/.gitignore"
         ]
     },
+    "knpuniversity/oauth2-client-bundle": {
+        "version": "2.13",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.20",
+            "ref": "1ff300d8c030f55c99219cc55050b97a695af3f6"
+        },
+        "files": [
+            "config/packages/knpu_oauth2_client.yaml"
+        ]
+    },
     "nelmio/api-doc-bundle": {
         "version": "4.10",
         "recipe": {
@@ -51,19 +63,6 @@
             "config/routes/nelmio_api_doc.yaml"
         ]
     },
-    "scheb/2fa-bundle": {
-        "version": "6.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "6.0",
-            "ref": "1e6f68089146853a790b5da9946fc5974f6fcd49"
-        },
-        "files": [
-            "config/packages/scheb_2fa.yaml",
-            "config/routes/scheb_2fa.yaml"
-        ]
-    },
     "symfony/console": {
         "version": "5.4",
         "recipe": {
@@ -74,6 +73,18 @@
         },
         "files": [
             "bin/console"
+        ]
+    },
+    "symfony/debug-bundle": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "5aa8aa48234c8eb6dbdd7b3cd5d791485d2cec4b"
+        },
+        "files": [
+            "config/packages/debug.yaml"
         ]
     },
     "symfony/flex": {
@@ -116,6 +127,18 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/monolog-bundle": {
+        "version": "3.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "3.7",
+            "ref": "213676c4ec929f046dfde5ea8e97625b81bc0578"
+        },
+        "files": [
+            "config/packages/monolog.yaml"
+        ]
+    },
     "symfony/routing": {
         "version": "5.4",
         "recipe": {
@@ -152,6 +175,19 @@
         "files": [
             "config/packages/twig.yaml",
             "templates/base.html.twig"
+        ]
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "24bbc3d84ef2f427f82104f766014e799eefcc3e"
+        },
+        "files": [
+            "config/packages/web_profiler.yaml",
+            "config/routes/web_profiler.yaml"
         ]
     }
 }

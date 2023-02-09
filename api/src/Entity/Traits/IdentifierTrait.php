@@ -7,11 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Ramsey\Uuid\Uuid;
 
-/**
- * Identifier trait.
- *
- * @ORM\MappedSuperclass
- */
+#[ORM\MappedSuperclass]
 trait IdentifierTrait
 {
     #[ORM\Id]

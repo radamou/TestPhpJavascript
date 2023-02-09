@@ -2,7 +2,7 @@
 
 namespace App\Entity\Traits\Interfaces;
 
-use App\Entity\User\User;
+use App\Entity\User;
 
 interface BlameInterface
 {
@@ -20,7 +20,7 @@ interface BlameInterface
      *
      * @return self
      */
-    public function setCreatedBy(User $createdBy): self;
+    public function setCreatedBy(): self;
 
     /**
      * Get user who updated the entity.
@@ -36,7 +36,7 @@ interface BlameInterface
      *
      * @return self
      */
-    public function setUpdatedBy(?User $updatedBy): self;
+    public function setUpdatedBy(): self;
 
     /**
      * Get user who archived the entity.

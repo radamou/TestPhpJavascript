@@ -13,7 +13,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
+use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
+use MiladRahimi\Jwt\Exceptions\SigningException;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -21,20 +24,32 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User implements IdentifierInterface, TimestampInterface, BlameInterface, UserInterface, TwoFactorInterface
+#[ORM\HasLifecycleCallbacks]
+class User implements IdentifierInterface, TimestampInterface, BlameInterface, UserInterface
 {
-    use IdentifierTrait;
+    use IdentifierTrait {
+        IdentifierTrait::__construct as private __identifierConstruct;
+    }
     use TimestampTrait;
     use BlameTrait;
-
-    #[ORM\Column(length: 255)]
+    private const JWT_HASH_VALUE = '12345678901234567890123456789012';
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
+
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $googleId = null;
+
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
+    private ?string $facebookId = null;
+
+    #[ORM\Column(length: 2048, unique: true)]
+    private ?string $apiToken = null;
 
     #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $birthDate = null;
@@ -48,11 +63,19 @@ class User implements IdentifierInterface, TimestampInterface, BlameInterface, U
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->__identifierConstruct();
     }
 
     public function getFirstname(): ?string
     {
         return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
     }
 
     public function setName(string $firstname): self
@@ -136,24 +159,54 @@ class User implements IdentifierInterface, TimestampInterface, BlameInterface, U
         return $this;
     }
 
-    public function isGoogleAuthenticatorEnabled(): bool
+    public function getApiToken(): string
     {
-        // TODO: Implement isGoogleAuthenticatorEnabled() method.
+        return $this->apiToken;
     }
 
-    public function getGoogleAuthenticatorUsername(): string
+    /**
+     * @throws SigningException
+     * @throws JsonEncodingException
+     */
+    public function setApiToken(string $socialNetworkToken): self
     {
-        // TODO: Implement getGoogleAuthenticatorUsername() method.
+        $this->apiToken = (new Generator(new HS256(self::JWT_HASH_VALUE)))->generate(
+            [
+                'id' => $this->getId(),
+                'email' => $this->getEmail(),
+                'token' => $socialNetworkToken
+            ]
+        );
+
+        return $this;
     }
 
-    public function getGoogleAuthenticatorSecret(): ?string
+    public function getGoogleId(): ?string
     {
-        // TODO: Implement getGoogleAuthenticatorSecret() method.
+        return $this->googleId;
+    }
+    public function setGoogleId(?string $googleId): self
+    {
+        $this->googleId = $googleId;
+
+        return $this;
     }
 
-    public function getRoles()
+    public function getFacebookId(): ?string
     {
-        // TODO: Implement getRoles() method.
+        return $this->facebookId;
+    }
+
+    public function setFacebookId(?string $facebookId): self
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return [];
     }
 
     public function getPassword()
@@ -171,13 +224,8 @@ class User implements IdentifierInterface, TimestampInterface, BlameInterface, U
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
-        // TODO: Implement getUsername() method.
-    }
-
-    public function __call(string $name, array $arguments)
-    {
-        // TODO: Implement @method string getUserIdentifier()
+        return $this->email;
     }
 }

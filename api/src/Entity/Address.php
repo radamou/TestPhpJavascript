@@ -14,9 +14,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Address implements IdentifierInterface, BlameInterface, TimestampInterface
 {
-    use IdentifierTrait;
+    use IdentifierTrait {
+        IdentifierTrait::__construct as private __identifierConstruct;
+    }
     use TimestampTrait;
     use BlameTrait;
 
@@ -38,6 +41,7 @@ class Address implements IdentifierInterface, BlameInterface, TimestampInterface
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->__identifierConstruct();
     }
 
     public function getAddress(): ?string

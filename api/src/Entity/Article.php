@@ -15,9 +15,12 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Article implements IdentifierInterface, BlameInterface, TimestampInterface
 {
-    use IdentifierTrait;
+    use IdentifierTrait {
+        IdentifierTrait::__construct as private __identifierConstruct;
+    }
     use TimestampTrait;
     use BlameTrait;
 
@@ -37,6 +40,7 @@ class Article implements IdentifierInterface, BlameInterface, TimestampInterface
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this-> __identifierConstruct();
     }
 
     public function getId(): ?int

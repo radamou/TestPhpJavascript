@@ -21,7 +21,7 @@ class Version20230208223551 extends AbstractMigration
      */
     public function getDescription(): string
     {
-        return '';
+        return 'First database creation';
     }
 
     /**
@@ -79,10 +79,6 @@ class Version20230208223551 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CAD6C76B5 FOREIGN KEY (comment_notation_id) REFERENCES comment_notation (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C7294869C FOREIGN KEY (article_id) REFERENCES article (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE "user" ADD CONSTRAINT FK_8D93D649F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-
-        if ($_ENV['APP_ENV'] === 'test') {
-            return;
-        }
     }
 
     /**
@@ -116,9 +112,5 @@ class Version20230208223551 extends AbstractMigration
         $this->addSql('DROP TABLE comment');
         $this->addSql('DROP TABLE comment_notation');
         $this->addSql('DROP TABLE "user"');
-
-        if ($_ENV['APP_ENV'] === 'test') {
-            return;
-        }
     }
 }

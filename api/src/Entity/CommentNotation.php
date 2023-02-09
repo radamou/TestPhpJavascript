@@ -14,9 +14,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CommentNotationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class CommentNotation implements IdentifierInterface, TimestampInterface, BlameInterface
 {
-    use IdentifierTrait;
+    use IdentifierTrait {
+        IdentifierTrait::__construct as private __identifierConstruct;
+    }
     use TimestampTrait;
     use BlameTrait;
 
@@ -29,6 +32,7 @@ class CommentNotation implements IdentifierInterface, TimestampInterface, BlameI
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this-> __identifierConstruct();
     }
 
     public function getNote(): ?int
