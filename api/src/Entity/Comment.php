@@ -23,16 +23,16 @@ class Comment implements IdentifierInterface, TimestampInterface, BlameInterface
     use BlameTrait;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['comment_show', 'list_comment'])]
+    #[Groups(['comment_show'])]
     private ?string $title = null;
     #[ORM\Column(length: 2048)]
-    #[Groups(['comment_show', 'list_comment'])]
+    #[Groups(['comment_show'])]
     private ?string $description = null;
     #[ORM\Column(nullable: true)]
-    #[Groups(['comment_show', 'list_comment'])]
+    #[Groups(['comment_show'])]
     private ?int $target = null;
     #[ORM\Column(nullable: true)]
-    #[Groups(['comment_show', 'list_comment'])]
+    #[Groups(['comment_show'])]
     private ?int $notation = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]

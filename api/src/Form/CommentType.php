@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Comment;
-use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\Form\AbstractType;
@@ -30,7 +29,6 @@ class CommentType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('target', TextType::class)
             ->add('notation', TextType::class)
-            ->add('article', ArticleType::class)
         ;
 
         $builder
